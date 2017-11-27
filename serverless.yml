@@ -1,0 +1,49 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: bookstore-graphql-api # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: java8
+  region: us-west-2
+  stage: prod
+  cfLogs: true
+  environment:
+      STAGE: prod
+  vpc:
+      securityGroupIds:
+        - sg-65bac01d
+      subnetIds:
+        - subnet-42ae9c1a
+        - subnet-02e7374b
+package:
+  artifact: target/bookstore-graphql-api-lambda-1.0.jar
+
+functions:
+  graphQLPost:
+    timeout: 100
+    handler: com.bookstore.api.lambda.function.BookstoreAPIFunctionHandler::handleRequest
+    events:
+    - http:
+        path: /graphql
+        method: post
+        cors: true
+    - http:
+        path: /graphql
+        method: get
+        cors: true

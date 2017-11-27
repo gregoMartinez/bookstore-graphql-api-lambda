@@ -1,0 +1,79 @@
+schema {
+    query: Query
+}
+
+type Query {
+    allBooks(skip: Int = 0, first: Int = 0): [Book]
+}
+
+type Mutation{
+   rateBook(rateInput: RateInput!): MutationResponse
+}
+
+
+type Author {
+    id: String
+    name: String
+    books: [Book]
+}
+
+type Book {
+     id: String
+     isbn: String
+     title: String
+     authorsNames: String
+     publicationYear: Int
+     price: Float
+     rating: Rating
+     genre: BookGenre
+     authors: [BookAuthor]
+     imageUrl: ImageUrl
+     authorList: [Author]
+}
+
+type Genre {
+    id: String
+    name: String
+}
+
+type Rating {
+    averageRating: Float
+    rateCount: Int
+}
+
+type ImageUrl {
+    normalSize: String
+    smallSize: String
+}
+
+
+interface Catalog{
+    id: String
+    name: String
+}
+
+
+type BookAuthor implements Catalog{
+    id: String
+    name: String
+}
+
+type BookGenre implements Catalog{
+    id: String
+    name: String
+}
+
+input RateInput{
+     id: String
+     rate: Int
+}
+
+type MutationResponse{
+    ok: Boolean
+}
+
+
+
+
+
+
